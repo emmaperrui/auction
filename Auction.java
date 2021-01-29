@@ -118,4 +118,15 @@ public class Auction
             System.out.println("");
         }
     }
+    
+    public ArrayList<Lot> getUnsold(){
+        ArrayList<Lot> unsold = new ArrayList<Lot>();
+        for(Lot lot : lots){
+            if(lot.getHighestBid() == null || lot.getHighestBid().getValue() <= 0){
+                 //System.out.println("No hay pujas");
+                 unsold.add(lot);
+            }
+        }
+        return unsold;
+    }
 }
