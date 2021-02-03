@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * A simple model of an auction.
@@ -79,28 +80,42 @@ public class Auction
      */
     public Lot getLot(int lotNumber)
     {
-        if((lotNumber >= 1) && (lotNumber < nextLotNumber)) {
-            // The number seems to be reasonable.
-            Lot selectedLot = lots.get(lotNumber - 1);
-            // Include a confidence check to be sure we have the
-            // right lot.
-            if(selectedLot.getNumber() != lotNumber) {
-                System.out.println("Internal error: Lot number " +
-                    selectedLot.getNumber() +
-                    " was returned instead of " +
-                    lotNumber);
-                // Don't return an invalid lot.
-                selectedLot = null;
+        Lot selectedLot = null;
+        boolean loteEncontrado = false;
+        int index = 0;
+        while(!loteEncontrado && index < lots.size()){
+            if(lots.get(index).getNumber() == lotNumber){
+                loteEncontrado = true;
+                selectedLot = lots.get(index);
+                System.out.println("El numero seleccionado corresponde al lote " + selectedLot);
+            }else{
+               index++; 
             }
-            return selectedLot;
         }
-        else {
-            System.out.println("Lot number: " + lotNumber +
-                " does not exist.");
-            return null;
-        }
+        return selectedLot;
     }
 
+    /**
+     * 
+     */
+    public Lot removeLot(int number)
+    {
+        Iterator<Lot> it = lots.iterator();
+        boolean lotEliminado = false;
+        Lot lotBorrado = null;
+        while(it.hasNext() && !lotEliminado){
+            lotBorrado = it.next();
+            if(lotBorrado.getNumber() == number){
+                it.remove();
+                lotEliminado = true;
+            }
+        }
+        if(lotEliminado = false){
+            lotBorrado = null;
+        }
+        return lotBorrado;
+    }
+    
     public void close(){
         for(Lot lot : lots){
             System.out.print("Nº: " + lot.getNumber());
@@ -118,13 +133,13 @@ public class Auction
             System.out.println("");
         }
     }
-    
+
     public ArrayList<Lot> getUnsold(){
         ArrayList<Lot> unsold = new ArrayList<Lot>();
         for(Lot lot : lots){
             if(lot.getHighestBid() == null || lot.getHighestBid().getValue() <= 0){
-                 //System.out.println("No hay pujas");
-                 unsold.add(lot);
+                //System.out.println("No hay pujas");
+                unsold.add(lot);
             }
         }
         return unsold;
