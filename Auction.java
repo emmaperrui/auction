@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * A simple model of an auction.
@@ -89,7 +88,7 @@ public class Auction
                 selectedLot = lots.get(index);
                 System.out.println("El numero seleccionado corresponde al lote " + selectedLot);
             }else{
-               index++; 
+                index++; 
             }
         }
         return selectedLot;
@@ -98,24 +97,17 @@ public class Auction
     /**
      * 
      */
-    public Lot removeLot(int number)
-    {
-        Iterator<Lot> it = lots.iterator();
-        boolean lotEliminado = false;
-        Lot lotBorrado = null;
-        while(it.hasNext() && !lotEliminado){
-            lotBorrado = it.next();
-            if(lotBorrado.getNumber() == number){
-                it.remove();
-                lotEliminado = true;
-            }
+    public Lot removeLot(int number){
+        Lot loteBorrado = null;
+        if((number >= 1)) {
+            loteBorrado = getLot(number);
         }
-        if(lotEliminado = false){
-            lotBorrado = null;
+        if(loteBorrado != null) {
+            lots.remove(loteBorrado);
         }
-        return lotBorrado;
+        return loteBorrado;
     }
-    
+
     public void close(){
         for(Lot lot : lots){
             System.out.print("Nº: " + lot.getNumber());
